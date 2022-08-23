@@ -9,7 +9,7 @@ function App (): JSX.Element {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Maestro Application</p>
         <small>
-          Version 0.0.1
+          Version 0.0.2
         </small>
       </header>
     </div>

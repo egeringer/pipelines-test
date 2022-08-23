@@ -1,8 +1,9 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable react/no-unescaped-entities */
+import React from 'react'
+import logo from './logo.svg'
+import './App.css'
 
-function About() {
+function About (): JSX.Element {
   return (
     <div className="App">
       <header className="App-header">
@@ -21,7 +22,7 @@ function About() {
         </small>
       </header>
     </div>
-  );
+  )
 }
 
-export { About };
+export { About }
