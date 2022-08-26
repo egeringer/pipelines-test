@@ -42,9 +42,9 @@ jobs:
         # This data can be any valid JSON from a previous step in the GitHub Action
         payload: |
           {
-            "environment": ${{ github.event.inputs.environment }},
-            "message": ${{ github.event.inputs.message }},
-            "status": ${{ job.status }}
+            "environment": "${{ github.event.inputs.environment }}",
+            "message": "${{ github.event.inputs.message }}",
+            "status": "${{ job.status }}"
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
