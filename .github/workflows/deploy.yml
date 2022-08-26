@@ -31,5 +31,17 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Log Deployment Environment
-      run: echo "Deploying ${{ github.event.inputs.environment }}"
-           echo "Message ${{ github.event.inputs.message }}"
+      run: echo "Deploying ${{ github.event.inputs.environment }} - Message ${{ github.event.inputs.message }}"
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: "Deployed to ${{ github.event.inputs.environment }} - ${{ github.event.inputs.message }}"
+        SLACK_TITLE: Deployment Done
+        SLACK_USERNAME: deploymentTesting
