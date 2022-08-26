@@ -33,6 +33,7 @@ jobs:
     - name: Log Deployment Environment
       run: echo "Deploying ${{ github.event.inputs.environment }} - Message ${{ github.event.inputs.message }}"
   slackNotification:
+    runs-on: ubuntu-latest
     steps:
     - name: Send GitHub Action trigger data to Slack workflow
       id: slack
