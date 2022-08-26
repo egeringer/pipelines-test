@@ -33,15 +33,8 @@ jobs:
     - name: Log Deployment Environment
       run: echo "Deploying ${{ github.event.inputs.environment }} - Message ${{ github.event.inputs.message }}"
   slackNotification:
-    name: Slack Notification
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+    - name: Send GitHub Action trigger data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.21.0
       env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_COLOR: ${{ job.status }}
-        SLACK_MESSAGE: "Deployed to ${{ github.event.inputs.environment }} - ${{ github.event.inputs.message }}"
-        SLACK_TITLE: Deployment Done
-        SLACK_USERNAME: deploymentTesting
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
