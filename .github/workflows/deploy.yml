@@ -29,11 +29,30 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Runs a single command using the runners shell
     - name: Log Deployment Environment
       run: echo "Deploying ${{ github.event.inputs.environment }} - Message ${{ github.event.inputs.message }}"
     - name: Log Environment
+      env:
+        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+        PRUEBA_EZE: 'Probando'
+        NPM: '${{ secrets.NPM_TOKEN }}'
       run: env
+    - name: Test Slack
+      env:
+        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+      run: if [ "$SLACK_WEBHOOK_URL" != "" ]; then echo SI; else echo NO; fi
+    - name: Test Prueba Eze
+      env:
+        PRUEBA_EZE: 'Probando'
+      run: if [ "$PRUEBA_EZE" != "" ]; then echo SI; else echo NO; fi
+    - name: Log NPM
+      env:
+        NPM: '${{ secrets.NPM_TOKEN }}'
+      run: if [ "$NPM" != "" ]; then echo SI; else echo NO; fi
+    - name: Log NPM Falso
+      env:
+        NPM: '${{ secrets.NPM_TOKEN_FALSO }}'
+      run: if [ "$NPM" != "" ]; then echo SI; else echo NO; fi
       
   slackNotification:
     runs-on: ubuntu-latest
