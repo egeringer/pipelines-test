@@ -27,8 +27,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: 
-      name: development
-      url: https://development.github.com
+      name: "${{ github.event.inputs.environment }}"
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     - name: Log Deployment Environment
@@ -56,6 +55,8 @@ jobs:
   deployToS3:
     name: Upload to Amazon S3
     runs-on: ubuntu-latest
+    environment: 
+      name: "${{ github.event.inputs.environment }}"
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
       id-token: write
