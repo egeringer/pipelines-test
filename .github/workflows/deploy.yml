@@ -53,6 +53,8 @@ jobs:
       env:
         NPM: '${{ secrets.NPM_TOKEN_FALSO }}'
       run: if [ "$NPM" != "" ]; then echo SI; else echo NO; fi
+    - name: Log NPM Directo
+      run: echo '${{ env.NPM_TOKEN }}'
       
   slackNotification:
     runs-on: ubuntu-latest
