@@ -52,3 +52,30 @@ jobs:
             "message": "${{ github.event.inputs.message }}",
             "status": "${{ job.status }}"
           }
+  
+  deployToS3:
+    name: Upload to Amazon S3
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: '${{ secrets.S3_IAM_ARN }}'
+        aws-region: us-east-1
+    - name: Install Dependencies
+      run: |
+        yarn install
+    - name: Build App
+      run: |
+        yarn build
+    - name: Copy files to the dev account with the AWS CLI
+      run: |
+        aws s3 cp --recursive --acl public-read ./build s3://'${{ secrets.S3_BUCKET_NAME }}'/
+        
