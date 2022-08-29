@@ -62,7 +62,7 @@ jobs:
   slackNotification:
     runs-on: ubuntu-latest
     environment: 
-      name: testing
+      name: staging
       url: https://testing.github.com
     steps:
     - name: Send GitHub Action trigger data to Slack workflow
