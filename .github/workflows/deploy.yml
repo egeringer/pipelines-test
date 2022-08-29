@@ -70,6 +70,7 @@ jobs:
         aws-access-key-id: 'AKIAXKQKVAG5ONUJ5EV5'
         aws-secret-access-key: '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'
         role-to-assume: 'arn:aws:iam::503607263674:role/githubToS3'
+        role-duration-seconds: 1200
         aws-region: us-east-1
     - name: Install Dependencies
       run: |
