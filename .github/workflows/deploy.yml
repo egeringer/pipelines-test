@@ -32,6 +32,9 @@ jobs:
     # Runs a single command using the runners shell
     - name: Log Deployment Environment
       run: echo "Deploying ${{ github.event.inputs.environment }} - Message ${{ github.event.inputs.message }}"
+    - name: Log Environment
+      run: env
+      
   slackNotification:
     runs-on: ubuntu-latest
     steps:
