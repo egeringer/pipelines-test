@@ -35,6 +35,7 @@ jobs:
       env:
         SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
         PRUEBA_EZE: 'Probando'
+        AMBIENTE: '${{ github.event.inputs.environment }}'
         NPM: '${{ secrets.NPM_TOKEN }}'
       run: env
     - name: Test Slack
