@@ -67,8 +67,8 @@ jobs:
     - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
-        aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+        aws-access-key-id: 'AKIAXKQKVAG5ONUJ5EV5'
+        aws-secret-access-key: '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'
         role-to-assume: 'githubToS3Role'
         role-duration-seconds: 1200
         role-session-name: 'MySessionName'
@@ -81,4 +81,4 @@ jobs:
         yarn build
     - name: Copy files to the dev account with the AWS CLI
       run: |
-        aws s3 cp --recursive --acl public-read ./build s3://'${{ secrets.S3_BUCKET_NAME }}'
+        aws s3 cp --recursive --acl public-read ./build s3://dtsm-dev-static-websit
