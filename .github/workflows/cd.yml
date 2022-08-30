@@ -64,7 +64,7 @@ jobs:
       with:
         payload: |
           {
-            "environment": development,
+            "environment": "development",
             "message": "Continuous Integration of the main branch",
             "status": "${{ job.status }}"
           }
