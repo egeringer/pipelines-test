@@ -80,7 +80,5 @@ jobs:
       run: |
         yarn build
     - name: Copy files to the dev account with the AWS CLI
-      env:
-        AWS_S3_BUCKET_NAME: '${{ secrets.AWS_S3_BUCKET_NAME }}'
       run: |
-        aws s3 cp --recursive --acl public-read ./build s3://github-to-s3-development
+        aws s3 cp --recursive --acl public-read ./build s3://github-to-s3-development/
