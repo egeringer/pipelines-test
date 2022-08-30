@@ -1,0 +1,72 @@
+name: Continuous deployment of the main branch
+
+on:
+  push:
+    branches: [ main ]
+jobs:  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set Node Version
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+    - name: Add NPM Token
+      run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NpmAuthToken }}" > .npmrc'
+    - name: Install modules
+      run: yarn install
+    - name: Run tests
+      run: yarn test
+    - name: Build
+      run: yarn build
+  
+  deployToS3:
+    name: Upload to Amazon S3
+    runs-on: ubuntu-latest
+    environment: 
+      name: development
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+        aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+        role-to-assume: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
+        role-duration-seconds: 1200
+        aws-region: us-east-1
+    - name: Install Dependencies
+      run: |
+        yarn install
+    - name: Build App
+      run: |
+        yarn build
+    - name: Copy files to the dev account with the AWS CLI
+      run: |
+        aws s3 sync ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
+
+  slackNotification:
+    runs-on: ubuntu-latest
+    environment: 
+      name: development
+    steps:
+    - name: Send GitHub Action trigger data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.21.0
+      env:
+        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+      with:
+        payload: |
+          {
+            "environment": development,
+            "message": "Continuous Integration of the main branch",
+            "status": "${{ job.status }}"
+          }
+  
+  
