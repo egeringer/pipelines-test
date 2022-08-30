@@ -1,5 +1,4 @@
 # This is a basic workflow that is manually triggered
-
 name: Manual deploy
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
@@ -21,37 +20,7 @@ on:
         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "deploy"
-  deployLog:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    environment: 
-      name: "${{ github.event.inputs.environment }}"
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    - name: Log Deployment Environment
-      run: echo "Deploying ${{ github.event.inputs.environment }} - Message ${{ github.event.inputs.message }}"
-      
-  slackNotification:
-    runs-on: ubuntu-latest
-    environment: 
-      name: "${{ github.event.inputs.environment }}"
-    steps:
-    - name: Send GitHub Action trigger data to Slack workflow
-      id: slack
-      uses: slackapi/slack-github-action@v1.21.0
-      env:
-        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
-      with:
-        # This data can be any valid JSON from a previous step in the GitHub Action
-        payload: |
-          {
-            "environment": "${{ github.event.inputs.environment }}",
-            "message": "${{ github.event.inputs.message }}",
-            "status": "${{ job.status }}"
-          }
-  
+jobs:  
   deployToS3:
     name: Upload to Amazon S3
     runs-on: ubuntu-latest
@@ -82,3 +51,21 @@ jobs:
     - name: Copy files to the dev account with the AWS CLI
       run: |
         aws s3 sync ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
+
+  slackNotification:
+    runs-on: ubuntu-latest
+    environment: 
+      name: "${{ github.event.inputs.environment }}"
+    steps:
+    - name: Send GitHub Action trigger data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.21.0
+      env:
+        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+      with:
+        payload: |
+          {
+            "environment": "${{ github.event.inputs.environment }}",
+            "message": "${{ github.event.inputs.message }}",
+            "status": "${{ job.status }}"
+          }
