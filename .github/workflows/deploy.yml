@@ -83,4 +83,4 @@ jobs:
       env:
         AWS_S3_BUCKET_NAME: '${{ secrets.AWS_S3_BUCKET_NAME }}'
       run: |
-        aws s3 cp --recursive --acl public-read ./build s3://"$AWS_S3_BUCKET_NAME"
+        aws s3 cp --recursive --acl public-read ./build s3://github-to-s3-development
