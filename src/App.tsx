@@ -1,6 +1,14 @@
 import React from 'react'
 import logo from './logo.svg'
 import './App.css'
+import fileVersion from './version.json'
+
+const getVersion = (): string => {
+  const theVersion: string[] = fileVersion.version.split('-')
+  const finalVersion: string | undefined = theVersion.pop()
+  if (finalVersion != null) return finalVersion
+  else return ''
+}
 
 function App (): JSX.Element {
   return (
@@ -9,7 +17,7 @@ function App (): JSX.Element {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Maestro Application</p>
         <small>
-          Version 0.0.6
+          Version {getVersion()}
         </small>
       </header>
     </div>
