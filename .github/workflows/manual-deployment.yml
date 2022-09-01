@@ -50,7 +50,7 @@ jobs:
         yarn build
     - name: Copy files to the dev account with the AWS CLI
       run: |
-        aws s3 sync --delete --acl public-read ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
+        aws s3 sync ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
 
   slackNotification:
     runs-on: ubuntu-latest
