@@ -51,6 +51,18 @@ jobs:
     - name: Copy files to the dev account with the AWS CLI
       run: |
         aws s3 sync ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
+    - name: Send GitHub Action trigger data to Slack workflow
+      id: slack
+      uses: slackapi/slack-github-action@v1.21.0
+      env:
+        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+      with:
+        payload: |
+          {
+            "environment": "${{ github.event.inputs.environment }}",
+            "message": "${{ github.event.inputs.message }}",
+            "status": "${{ job.status }}"
+          }
 
   slackNotification:
     runs-on: ubuntu-latest
@@ -67,5 +79,5 @@ jobs:
           {
             "environment": "${{ github.event.inputs.environment }}",
             "message": "${{ github.event.inputs.message }}",
-            "status": "${{ job.status }}"
+            "status": "In Progress"
           }
