@@ -34,7 +34,7 @@ jobs:
         yarn build
     - name: Copy files to the dev account with the AWS CLI
       run: |
-        aws s3 sync --acl public-read ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
+        aws s3 sync --delete --acl public-read ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
     - name: Send GitHub Action trigger data to Slack workflow
       id: slack
       uses: slackapi/slack-github-action@v1.21.0
