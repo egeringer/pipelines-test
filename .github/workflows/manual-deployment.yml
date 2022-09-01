@@ -48,7 +48,7 @@ jobs:
       run: |
         yarn install
     - name: Branch name
-      run: echo running on branch ${GITHUB_REF#*/}
+      run: echo running on branch ${GITHUB_REF##*/}
     - name: Add Version Number
       run: 'echo "{ \"version\" : \"1\"}" > src/version.json'
     - name: Build App
@@ -57,6 +57,8 @@ jobs:
     - name: Copy files to the dev account with the AWS CLI
       run: |
         aws s3 sync --delete --acl public-read ./build s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
+        aws s3 cp --acl public-read --cache-control="max-age=100, no-cache, no-store, must-revalidate" ./build/service-worker.js s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
+        aws s3 cp --acl public-read --cache-control="max-age=100, no-cache, no-store, must-revalidate" ./build/index.html s3://"${{ secrets.AWS_S3_BUCKET_NAME }}"
     - name: Send GitHub Action trigger data to Slack workflow
       id: slack
       uses: slackapi/slack-github-action@v1.21.0
