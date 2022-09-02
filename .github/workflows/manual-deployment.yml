@@ -50,7 +50,7 @@ jobs:
     - name: Branch name
       run: echo running on branch ${GITHUB_REF##*/}
     - name: Add Version Number
-      run: 'echo "{ \"version\" : \"1\" }" > ./src/version.json'
+      run: 'echo "{ \"version\" : \"${GITHUB_REF##*/}\" }" > ./src/version.json'
     - name: Build App
       run: |
         yarn build
