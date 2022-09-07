@@ -45,9 +45,9 @@ jobs:
     - name: Add NPM Token
       run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NpmAuthToken }}" > .npmrc'
     - name: Branch name
-      run: echo running on branch $(echo $GITHUB_REF | cut -d"/" -f 3) from ${GITHUB_REF}
+      run: echo running on branch $(echo $GITHUB_REF | cut -d"/" -f 4)
     - name: Add Version Number
-      run: 'echo "{ \"version\" : \"$(echo $GITHUB_REF | cut -d"/" -f 3)\" }" > ./src/version.json'
+      run: 'echo "{ \"version\" : \"$(echo $GITHUB_REF | cut -d"/" -f 4)\" }" > ./src/version.json'
     - name: Install Dependencies
       run: |
         yarn install
