@@ -41,16 +41,19 @@ jobs:
         aws-secret-access-key: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
         role-to-assume: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
         role-duration-seconds: 1200
+        main-branch: '${GITHUB_REF#*/}'
         aws-region: us-east-1
     - name: Add NPM Token
       run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NpmAuthToken }}" > .npmrc'
     - name: Install Dependencies
       run: |
         yarn install
+    - name: Getting branch name
+      run: export mainBranch=$(echo $GITHUB_REF | cut -d'/' -f 2)
     - name: Branch name
-      run: echo running on branch ${GITHUB_REF##*/}
+      run: echo running on branch ${mainBranch} or ${main-branch%/main}
     - name: Add Version Number
-      run: 'echo "{ \"version\" : \"${GITHUB_REF##*/}\" }" > ./src/version.json'
+      run: 'echo "{ \"version\" : \"${mainBranch}\" }" > ./src/version.json'
     - name: Build App
       run: |
         yarn build
