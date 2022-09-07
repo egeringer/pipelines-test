@@ -48,9 +48,9 @@ jobs:
       run: |
         yarn install
     - name: Branch name
-      run: echo running on branch ${GITHUB_REF//[a-zA-Z\/]/}
+      run: echo running on branch $(echo $GITHUB_REF | cut -d"/" -f 2)
     - name: Add Version Number
-      run: 'echo "{ \"version\" : \"${GITHUB_REF//[a-zA-Z\/]/}\" }" > ./src/version.json'
+      run: 'echo "{ \"version\" : \"$(echo $GITHUB_REF | cut -d"/" -f 2)\" }" > ./src/version.json'
     - name: Build App
       run: |
         yarn build
