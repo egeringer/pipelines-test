@@ -1,11 +1,10 @@
-name: CI - Run Tests
+name: CI - Lint App
+run-name: "${{ github.workflow }} - ${{ github.ref_name }}"
 on: 
   push:
     branches: [ release/*/feature/*, release/*/bug/* ]
-  pull_request_target:
-    branches: [ main, release/*/main ]
 jobs:
-  testApp:
+  lintApp:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,5 +16,5 @@ jobs:
       run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NpmAuthToken }}" > .npmrc'
     - name: Install modules
       run: yarn
-    - name: Run tests
-      run: yarn test
+    - name: Lint project
+      run: yarn run eslint
