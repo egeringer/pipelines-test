@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 name: Manual Deploy
-run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }} - (${{ github.event.inputs.environment }})"
+run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }} - (${{ github.event.inputs.message }})"
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
