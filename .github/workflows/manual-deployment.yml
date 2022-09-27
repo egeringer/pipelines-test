@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
-name: Manual deploy
-run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }}"
+name: Manual Deploy
+run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }} - (${{ github.event.inputs.environment }})"
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
@@ -20,11 +20,11 @@ on:
         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:  
+jobs:
   deployToS3:
     name: Upload to Amazon S3
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: "${{ github.event.inputs.environment }}"
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
@@ -66,7 +66,7 @@ jobs:
 
   slackNotification:
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: "${{ github.event.inputs.environment }}"
     steps:
     - name: Send GitHub Action trigger data to Slack workflow
