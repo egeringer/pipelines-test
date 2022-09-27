@@ -20,11 +20,11 @@ on:
         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
+jobs:  
   deployToS3:
     name: Upload to Amazon S3
     runs-on: ubuntu-latest
-    environment:
+    environment: 
       name: "${{ github.event.inputs.environment }}"
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
@@ -34,7 +34,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Configure AWS credentials from Test account
+    - name: Configure AWS credentials from the selected environment
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: '${{ secrets.AWS_ACCESS_KEY_ID }}'
@@ -42,6 +42,12 @@ jobs:
         role-to-assume: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
         role-duration-seconds: 1200
         aws-region: us-east-1
+    - name: Add NPM Token
+      run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NpmAuthToken }}" > .npmrc'
+    - name: Branch name
+      run: echo running on branch $(echo $GITHUB_REF | cut -d"/" -f 4)
+    - name: Add Version Number
+      run: 'echo "{ \"version\" : \"$(echo $GITHUB_REF | cut -d"/" -f 4)\" }" > ./src/version.json'
     - name: Install Dependencies
       run: |
         yarn install
@@ -66,7 +72,7 @@ jobs:
 
   slackNotification:
     runs-on: ubuntu-latest
-    environment:
+    environment: 
       name: "${{ github.event.inputs.environment }}"
     steps:
     - name: Send GitHub Action trigger data to Slack workflow
