@@ -1,5 +1,5 @@
-name: Continuous deployment of the main branch
-
+name: Automated Deploy
+run-name: "${{ github.workflow }} - development"
 on:
   push:
     branches: [ main ]
