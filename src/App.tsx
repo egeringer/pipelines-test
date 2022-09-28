@@ -15,7 +15,7 @@ function App (): JSX.Element {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Maestro Application</p>
+        <p>Maestro</p>
         <small>
           Version {getVersion()}
         </small>
