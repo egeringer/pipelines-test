@@ -1,0 +1,10 @@
+name: CI - Lint App Remote
+run-name: "${{ github.workflow }} - ${{ github.ref_name }}"
+on: 
+  push:
+    branches: [ main, release/*/main, release/*/feature/*, release/*/bug/* ]
+jobs:
+  testApp:
+    uses: egeringer/reusable-github-actions/.github/workflows/ci-lint.yml@main
+    secrets:
+      NPM_AUTH_TOKEN: ${{ secrets.NpmAuthToken }}
