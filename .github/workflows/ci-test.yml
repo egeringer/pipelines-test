@@ -1,4 +1,4 @@
-name: CI - Test App
+name: CI - Test App Remoto
 run-name: "${{ github.workflow }} - ${{ github.ref_name }}"
 on: 
   pull_request_target:
@@ -8,4 +8,3 @@ jobs:
     uses: egeringer/reusable-github-actions/.github/workflows/ci-test.yml@main
     secrets:
       NpmAuthToken: ${{ secrets.NpmAuthToken }}
-        
