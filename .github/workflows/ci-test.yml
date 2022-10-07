@@ -6,15 +6,11 @@ on:
 jobs:
   testApp:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [12, 14, 16, 18]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set Node Version
-      uses: actions/setup-node@v2
+    - name: Usar tests de otro repo
+      uses: egeringer/reusable-github-actions/.github/workflows/ci-test.yml@main
       with:
-        node-version: 14.x
-    - name: Add NPM Token
-      run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NpmAuthToken }}" > .npmrc'
-    - name: Install modules
-      run: yarn
-    - name: Run tests
-      run: yarn test
+        node-version: ${{ matrix.version }}
