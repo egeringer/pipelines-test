@@ -1,0 +1,14 @@
+name: CI - Send Slack Notification on Push
+run-name: "${{ github.workflow }} - ${{ github.ref_name }}"
+on: 
+  push:
+    branches: [ main, release/*/main, release/*/feature/*, release/*/bug/* ]
+jobs:
+  slackNotification:
+    uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
+    with:
+      environment: "None"
+      message: "Branch Pushed - ${{ github.ref_name }}"
+      status: "Success"
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

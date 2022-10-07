@@ -1,4 +1,4 @@
-name: CI - Test App Remoto
+name: CI - Test App Remote
 run-name: "${{ github.workflow }} - ${{ github.ref_name }}"
 on: 
   pull_request_target:
