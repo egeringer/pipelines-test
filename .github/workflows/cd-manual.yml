@@ -1,4 +1,4 @@
-name: Manual Deploy
+name: Continuous Deployment
 run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }} - ${{ github.ref_name }} - (${{ github.event.inputs.message }})"
 on:
   workflow_dispatch:
