@@ -17,8 +17,8 @@ jobs:
       name: "${{ github.event.inputs.environment }}"
     uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
     with:
-      environment: "${{ github.event.inputs.environment }}",
-      message: "${{ github.event.inputs.message }}",
+      environment: "${{ github.event.inputs.environment }}"
+      message: "${{ github.event.inputs.message }}"
       status: "Started"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -33,8 +33,8 @@ jobs:
   secondSlackNotification:
     uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
     with:
-      environment: "${{ github.event.inputs.environment }}",
-      message: "${{ github.event.inputs.message }}",
+      environment: "${{ github.event.inputs.environment }}"
+      message: "${{ github.event.inputs.message }}"
       status: "Finished"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
