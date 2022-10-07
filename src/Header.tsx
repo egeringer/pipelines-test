@@ -6,7 +6,8 @@ function MaestroHeader (): JSX.Element {
     <div>
       <nav>
         <Link to="/">Home</Link> |{' '}
-        <Link to="about">About</Link>
+        <Link to="about">About</Link> |{' '}
+        <Link to="gitgraph">GitGraph</Link>
       </nav>
     </div>
   )
