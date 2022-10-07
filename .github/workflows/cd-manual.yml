@@ -1,0 +1,40 @@
+name: Manual Deploy
+run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }} - ${{ github.ref_name }} - (${{ github.event.inputs.message }})"
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Deploy message'
+        default: ''
+        required: true
+      environment:
+        description: 'Environment to get the code deployed to'
+        type: environment
+        required: true
+jobs:  
+  slackNotification:
+    environment: 
+      name: "${{ github.event.inputs.environment }}"
+    uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
+    with:
+      environment: "${{ github.event.inputs.environment }}",
+      message: "${{ github.event.inputs.message }}",
+      status: "Started"
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  deployCode:
+    uses: egeringer/reusable-github-actions/.github/workflows/aws-s3-fe-deployment.yml@main
+    secrets:
+      NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
+      AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
+      AWS_ROLE_TO_ASSUME: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
+      AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
+  slackNotification:
+    uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
+    with:
+      environment: "${{ github.event.inputs.environment }}",
+      message: "${{ github.event.inputs.message }}",
+      status: "Finished"
+    secrets:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
