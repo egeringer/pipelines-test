@@ -12,7 +12,7 @@ on:
         type: environment
         required: true
 jobs:  
-  slackNotification:
+  firstSlackNotification:
     environment: 
       name: "${{ github.event.inputs.environment }}"
     uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
@@ -30,7 +30,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
       AWS_ROLE_TO_ASSUME: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
       AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
-  slackNotification:
+  secondSlackNotification:
     uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
     with:
       environment: "${{ github.event.inputs.environment }}",
