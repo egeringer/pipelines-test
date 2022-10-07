@@ -5,16 +5,7 @@ on:
     branches: [ main, release/*/main ]
 jobs:
   testApp:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set Node Version
-      uses: actions/setup-node@v2
-      with:
-        node-version: 14.x
-    - name: Add NPM Token
-      run: 'echo "//registry.npmjs.org/:_authToken=${{ secrets.NpmAuthToken }}" > .npmrc'
-    - name: Install modules
-      run: yarn
-    - name: Run tests
-      run: yarn test
+    uses: egeringer/reusable-github-actions/.github/workflows/ci-test.yml@main
+    secrets:
+      NpmAuthToken: ${{ secrets.NpmAuthToken }}
+        
