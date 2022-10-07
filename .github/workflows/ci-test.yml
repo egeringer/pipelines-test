@@ -5,12 +5,7 @@ on:
     branches: [ main, release/*/main ]
 jobs:
   testApp:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [12, 14, 16, 18]
-    steps:
-    - name: Usar tests de otro repo
-      uses: egeringer/reusable-github-actions/.github/workflows/ci-test.yml@main
-      with:
-        node-version: ${{ matrix.version }}
+    uses: egeringer/reusable-github-actions/.github/workflows/ci-test.yml@main
+    secrets:
+      NpmAuthToken: ${{ secrets.NpmAuthToken }}
+        
