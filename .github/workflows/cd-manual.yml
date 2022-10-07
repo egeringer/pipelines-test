@@ -13,8 +13,6 @@ on:
         required: true
 jobs:  
   firstSlackNotification:
-    environment: 
-      name: "${{ github.event.inputs.environment }}"
     uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
     with:
       environment: "${{ github.event.inputs.environment }}"
