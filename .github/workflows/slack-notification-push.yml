@@ -11,4 +11,4 @@ jobs:
       message: "Branch Pushed - ${{ github.ref_name }}"
       status: "Success"
     secrets:
-      NPM_AUTH_TOKEN: ${{ secrets.NpmAuthToken }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
