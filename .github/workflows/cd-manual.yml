@@ -1,5 +1,5 @@
-name: Continuous Deployment
-run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }} - ${{ github.ref_name }} - (${{ github.event.inputs.message }})"
+name: Manual Deployment
+run-name: "${{ github.workflow }} - ${{ github.event.inputs.environment }} - ${{ github.ref_name }}"
 on:
   workflow_dispatch:
     inputs:
@@ -8,7 +8,7 @@ on:
         default: ''
         required: true
       environment:
-        description: 'Environment to get the code deployed to'
+        description: 'Environment'
         type: environment
         required: true
 jobs:  
@@ -36,7 +36,7 @@ jobs:
     with:
       environment: "${{ github.event.inputs.environment }}"
       message: "${{ github.event.inputs.message }}"
-      status: "${{needs.deployCode.outputs.buildResult}} - ${{needs.deployCode.outputs.uploadResult}}"
+      status: "Build: ${{needs.deployCode.outputs.buildResult}} - Upload: ${{needs.deployCode.outputs.uploadResult}}"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     needs: deployCode
