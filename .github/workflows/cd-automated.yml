@@ -2,7 +2,7 @@ name: Continuous Deployment
 run-name: "${{ github.workflow }} - ${{ github.ref_name }}"
 on:
   push:
-    branches: [ main, release/*/main ]
+    branches: [ main ]
 jobs:
   firstSlackNotification:
     uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
@@ -22,11 +22,13 @@ jobs:
       AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
       AWS_ROLE_TO_ASSUME: '${{ secrets.AWS_ROLE_TO_ASSUME }}'
       AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
+    needs: firstSlackNotification
   secondSlackNotification:
     uses: egeringer/reusable-github-actions/.github/workflows/slack-notification.yml@main
     with:
       environment: "development"
       message: "Continuous deployment of the main branch"
-      status: "Finished"
+      status: "Build: ${{needs.deployCode.outputs.buildResult}} - Upload: ${{needs.deployCode.outputs.uploadResult}}"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    needs: deployCode
