@@ -35,6 +35,6 @@ jobs:
     with:
       environment: "${{ github.event.inputs.environment }}"
       message: "${{ github.event.inputs.message }}"
-      status: "Finished"
+      status: "${{needs.deployCode.outputs.buildResult}} - ${{needs.deployCode.outputs.uploadResult}}"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
