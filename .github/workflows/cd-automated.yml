@@ -28,7 +28,7 @@ jobs:
     with:
       environment: "development"
       message: "Continuous deployment of the main branch"
-      status: "Finished"
+      status: "Build: ${{needs.deployCode.outputs.buildResult}} - Upload: ${{needs.deployCode.outputs.uploadResult}}"
     secrets:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     needs: deployCode
